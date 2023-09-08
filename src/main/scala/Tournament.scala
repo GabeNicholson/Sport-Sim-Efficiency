@@ -82,16 +82,70 @@ class Tournament(teams: List[Team]) {
   }
 
 
-  def simulatePlayoffMatch(bestTeams: List[Team]): Team = {
+  /** Simulate a best of five playoff match between two teams.
+   *
+   * @param team1
+   * @param team2
+   * @return The team that won the match.
+   */
+  def simulatePlayoffMatch(team1: Team, team2: Team): Team = {
     var teamWin1 = 0
     var teamWin2 = 0
     while (teamWin1 < 3 & teamWin2 < 3) {
-      val winner = simulateMatch(bestTeams(0), bestTeams(1))
-      if (winner == bestTeams(0)) {
+      val winner = simulateMatch(team1, team2)
+      if (winner == team1) {
         teamWin1 += 1
       }
       else teamWin2 += 1
     }
-    if (teamWin1 > teamWin2) bestTeams(0) else bestTeams(1)
+//    println(s"${team1.name} won ${teamWin1} games. ${team2.name} won ${teamWin2} games.")
+    if (teamWin1 > teamWin2) team1 else team2
+  }
+
+  /** Simulate a single round in the playoffs.
+   *
+   * First start by getting the first two teams in the list. Then get these teams to play against each other
+   * and store the winner in `accumulator`. Run this function again until there aren't any teams left.
+   *
+   * @param playoffTeams
+   * @return
+   */
+  private def simKnockoutRound(playoffTeams: List[Team]): List[Team] = {
+    require(playoffTeams.length % 2 == 0, "There must be an even number of teams in the playoffs.")
+    def inner(playoffTeams: List[Team], accumulator:List[Team]): List[Team] = {
+      playoffTeams match {
+//       Match if there are at least two elements in the list.
+        case first :: second :: rest =>
+          val winner = simulatePlayoffMatch(first, second)
+          return inner(rest, winner :: accumulator)
+//         Match any other list (including empty and one-element lists).
+        case _ =>
+          return accumulator
+      }
+    }
+    inner(playoffTeams, List())
+  }
+
+  /**
+   * Simulate knockout tournament.
+   *
+   * simKnockoutRound() simulates a single round of the tournament.
+   * The result of this function is then a smaller list of the winners from their games.
+   * These players are then randomly faced off against each other and the process continues until one person remains.
+   * The winner is the last team standing.
+   *
+   * @param playoffTeams List of teams still alive in the playoffs.
+   * @return The team that won the playoffs.
+   */
+  def simulatePlayoffs(playoffTeams: List[Team]): Team = {
+//    Base Case: The final team remaining.
+    if (playoffTeams.length == 1) return playoffTeams.head
+
+//    Recursive Logic
+    val shuffledTeams = Random.shuffle(playoffTeams)
+
+//    Get the teams that won the first round of knockouts.
+    val winningTeams = simKnockoutRound(playoffTeams)
+    simulatePlayoffs(winningTeams)
   }
 }
