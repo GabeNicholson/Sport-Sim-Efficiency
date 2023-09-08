@@ -1,4 +1,3 @@
-import scala.reflect.internal.util.NoPosition.end
 import scala.util.Random
 
 /**
@@ -39,7 +38,8 @@ class Tournament(teams: List[Team]) {
   /**
    * Simulate the regular season and return the list of winning teams.
    *
-   * @return List of winning teams from each match.
+   * @return List of winning teams from each match. Each element in the list is a Team instance and the total wins
+   *         is found by counting how many times that Team instance is in the list.
    */
   def simulateRegularSeason(): List[Team] = {
     var results: List[Team] = List()
@@ -63,14 +63,16 @@ class Tournament(teams: List[Team]) {
    */
   def getTopNTeams(seasonScores: List[Team], N: Int): List[Team] = {
 //    Gets the top N teams based on the number of wins which is found by (occurrences.size)
+//    TopNTeams is a list of tuples with the structure (Team, #Wins).
     val topNTeams = seasonScores
       .groupBy(identity)
       .map { case (name, occurrences) => (name, occurrences.size) }
       .toList
-      .sortWith((a, b) => (a._2 > b._2))
+      .sortWith((a, b) => a._2 > b._2)
       .take(N)
-    val best = topNTeams.map(x => x._1)
-    return best
+//    Extract the Team instance from the list
+    val bestTeams: List[Team] = topNTeams.map(x => x._1)
+    return bestTeams
   }
 
 
