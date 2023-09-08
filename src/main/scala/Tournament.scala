@@ -37,17 +37,23 @@ class Tournament(teams: List[Team]) {
 
   /**
    * Simulate the regular season and return the list of winning teams.
+   * The total number of games played in one iteration is equal to (N * N-1) where N is the number of teams.
    *
+   * @param numGameIterations Decides many times the teams will play against each other.
    * @return List of winning teams from each match. Each element in the list is a Team instance and the total wins
    *         is found by counting how many times that Team instance is in the list.
    */
-  def simulateRegularSeason(): List[Team] = {
+  def simulateRegularSeason(numGameIterations: Int): List[Team] = {
+    require(numGameIterations > 0, "Number of game iterations must be greater than zero.")
     var results: List[Team] = List()
-    for (team1 <- teams) {
-      for (team2 <- teams) {
-        if (team1 != team2) {
-          val winningTeam = simulateMatch(team1, team2)
-          results = winningTeam :: results
+    println(s"There are ${numGameIterations * teams.length * (teams.length-1)} games this season.")
+    for (sim <- 1 to numGameIterations) {
+      for (team1 <- teams) {
+        for (team2 <- teams) {
+          if (team1 != team2) {
+            val winningTeam = simulateMatch(team1, team2)
+            results = winningTeam :: results
+          }
         }
       }
     }

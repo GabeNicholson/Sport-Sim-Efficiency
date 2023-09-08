@@ -12,7 +12,7 @@ object Main extends App {
 
   val tourney = new Tournament(allTeams)
   //    seasonScores is a List containing the Team instances who won.
-  val seasonScores = tourney.simulateRegularSeason()
+  val seasonScores = tourney.simulateRegularSeason(1)
   val playoffTeams = tourney.getTopNTeams(seasonScores, 2)
   val winner = tourney.simulatePlayoffMatch(playoffTeams).name
   println(s"$winner won the tournament!")
