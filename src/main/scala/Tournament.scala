@@ -48,15 +48,14 @@ class Tournament(teams: List[Team]) {
     require(numGameIterations > 0, "Number of game iterations must be greater than zero.")
     val results = ListBuffer[Team]()
     println(s"There are ${numGameIterations * teams.length * (teams.length-1)} games this season.")
-    for (sim <- 1 to numGameIterations) {
-      for (team1 <- teams) {
-        for (team2 <- teams) {
-          if (team1 != team2) {
-            val winningTeam = simulateMatch(team1, team2)
-            results += winningTeam
-          }
-        }
-      }
+    for {
+      sim <- 1 to numGameIterations
+      team1 <- teams
+      team2 <- teams
+      if (team1 != team2)
+    } {
+      val winningTeam = simulateMatch(team1, team2)
+      results += winningTeam
     }
     return results.toList
   }
