@@ -1,0 +1,2 @@
+# Sport Sim Efficiency
+ Which sports franchise is setup the best so that the best team wins the most amount of times? In some sports like Soccer, the league winner is decided by who has the most points at the end of the season. In NHL it is decided by playoffs and a knockout tournament. Which of these setups are conducive for efficiency, and how does this change depending on the number of games that are played or teams getting better/worse throughout the season?
