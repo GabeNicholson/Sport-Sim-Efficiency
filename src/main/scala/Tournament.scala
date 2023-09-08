@@ -82,24 +82,25 @@ class Tournament(teams: List[Team]) {
   }
 
 
-  /** Simulate a best of five playoff match between two teams.
+  /** Simulates a best of five playoff match between two teams.
    *
-   * @param team1
-   * @param team2
-   * @return The team that won the match.
+   * The first team to get 3 points wins. In future iterations this can become a variable.
+   *
+   * @param team1 Can be any Team.
+   * @param team2 Can be any Team.
+   * @return The Team that won the match.
    */
   def simulatePlayoffMatch(team1: Team, team2: Team): Team = {
-    var teamWin1 = 0
-    var teamWin2 = 0
-    while (teamWin1 < 3 & teamWin2 < 3) {
-      val winner = simulateMatch(team1, team2)
-      if (winner == team1) {
-        teamWin1 += 1
+    def inner(teamWin1: Int, teamWin2: Int): Team = {
+      if (teamWin1 == 3) team1
+      else if (teamWin2 == 3) team2
+      else {
+        val winner = simulateMatch(team1, team2)
+        if (winner == team1) inner(teamWin1 + 1, teamWin2)
+        else inner(teamWin1, teamWin2 + 1)
       }
-      else teamWin2 += 1
     }
-//    println(s"${team1.name} won ${teamWin1} games. ${team2.name} won ${teamWin2} games.")
-    if (teamWin1 > teamWin2) team1 else team2
+    inner(0,0)
   }
 
   /** Simulate a single round in the playoffs.
