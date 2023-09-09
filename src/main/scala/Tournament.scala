@@ -47,7 +47,7 @@ class Tournament(teams: List[Team]) {
   def simulateRegularSeason(numGameIterations: Int): List[Team] = {
     require(numGameIterations > 0, "Number of game iterations must be greater than zero.")
     val results = ListBuffer[Team]()
-    println(s"There are ${numGameIterations * teams.length * (teams.length-1)} games this season.")
+//    println(s"There are ${numGameIterations * teams.length * (teams.length-1)} games this season.")
     for {
       sim <- 1 to numGameIterations
       team1 <- teams
