@@ -7,3 +7,12 @@ hs_err_pid*
 src/main/scala/testing_sheet.sc
 out/production/Sport-Sim-Efficiency/testing_sheet.sc
 *.sc
+
+#Compiled target packages
+######################
+target/
+project/target/
+.idea
+.idea/workspace.xml
+.bsp/sbt.json
+project/build.properties
