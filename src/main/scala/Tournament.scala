@@ -1,4 +1,3 @@
-import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 /**
@@ -46,17 +45,12 @@ class Tournament(teams: List[Team]) {
    */
   def simulateRegularSeason(numGameIterations: Int): List[Team] = {
     require(numGameIterations > 0, "Number of game iterations must be greater than zero.")
-    val results = ListBuffer[Team]()
-//    println(s"There are ${numGameIterations * teams.length * (teams.length-1)} games this season.")
-    for {
+    val results = for {
       sim <- 1 to numGameIterations
       team1 <- teams
       team2 <- teams
       if (team1 != team2)
-    } {
-      val winningTeam = simulateMatch(team1, team2)
-      results += winningTeam
-    }
+    } yield simulateMatch(team1, team2)
     return results.toList
   }
 
