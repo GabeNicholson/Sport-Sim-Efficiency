@@ -106,7 +106,9 @@ class Tournament(teams: List[Team]) {
    * @return
    */
   private def simKnockoutRound(playoffTeams: List[Team]): List[Team] = {
-    require(playoffTeams.length % 2 == 0, "There must be an even number of teams in the playoffs.")
+    require(playoffTeams.length % 2 == 0,
+      s"There must be an even number of teams in the playoffs. Instead there are ${playoffTeams.length} Teams"
+    )
     def inner(playoffTeams: List[Team], accumulator:List[Team]): List[Team] = {
       playoffTeams match {
 //       Match if there are at least two elements in the list.
