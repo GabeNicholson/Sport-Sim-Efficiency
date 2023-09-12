@@ -17,18 +17,19 @@ object Main extends App {
     Random.shuffle(List(shana, andrew, dim, dim2, dim3, gabe))
   }
 
+  val numIterations = 2
+  val numberOfPlayoffTeams = 4
   val soccerChampions = ListBuffer[String]()
   val hockeyChampions = ListBuffer[String]()
 
   for (i <- 1 to 100000) {
     val allTeams = initializeTeams()
+    val numTeams = allTeams.length
     val tourney = new Tournament(allTeams)
-    val numIterations = 5
-    val numberOfPlayoffTeams = 4
 
     //    seasonScores is a List containing the Team instances who won.
     val seasonScores = tourney.simulateRegularSeason(numIterations)
-    val numTeams = allTeams.length
+
     //    println(s"${(numIterations * numTeams * (numTeams - 1))}Regular season games")
     
     //  Reduce the number of seasonGames so that the total number of games played are the same for both sports.
